@@ -5,7 +5,6 @@ export default function App() {
   const [answer, setAnwser] = useState("He who will never try, will never get");
   const [showIt, setShowIt] = useState("");
   const newData = function dating() {
-    setShowIt("");
     fetch("https://api.quotable.io/random")
       .then((response) => {
         return response.json();
@@ -13,6 +12,7 @@ export default function App() {
       .then((data) => {
         setAnwser(data.content);
       });
+    setShowIt("");
   };
   function getIt() {
     setShowIt(" Now you also have it, try checking your Clipboard");
