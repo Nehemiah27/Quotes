@@ -1,34 +1,43 @@
-import React, { useState } from "react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import React, { useState, useEffect } from "react";
+import Comp from "./Comp";
+import { SketchPicker } from "react-color";
+import Button from "@material-ui/core/Button";
 
 export default function App() {
-  const [answer, setAnwser] = useState("He who will never try, will never get");
-  const [showIt, setShowIt] = useState("");
-  const newData = function dating() {
-    fetch("https://api.quotable.io/random")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setAnwser(data.content);
-      });
-    setShowIt("");
-  };
-  function getIt() {
-    setShowIt(" Now you also have it, try checking your Clipboard");
-  }
+  const [color, setColor] = useState("#FFFFFF");
+  const [back, setBack] = useState(false);
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+  }, []);
   return (
     <>
-      <h1>{answer}</h1>
-      <div />
-      <button onClick={newData}>Click here to Load New Quote</button>
-      <div />
-      <br />
-      <CopyToClipboard text={answer}>
-        <button onClick={getIt}>Get it</button>
-      </CopyToClipboard>
-
-      <span style={{ color: "green" }}>{showIt}</span>
+      <center
+        style={{
+          backgroundColor: color,
+          height: "100vh",
+          transition: "ease all 500ms"
+        }}
+      >
+        <Comp />
+        <br />
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => setBack(!back)}
+        >
+          {!back ? "Change BackGround Color" : "Close Color Picker"}
+        </Button>
+        <div>
+          {back ? (
+            <SketchPicker
+              color={color}
+              onChangeComplete={(color) => {
+                setColor(color.hex);
+              }}
+            />
+          ) : null}
+        </div>
+      </center>
     </>
   );
 }
